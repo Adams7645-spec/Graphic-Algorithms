@@ -14,9 +14,14 @@ namespace GraphicAlgorithms
     public partial class MainForm : Form
     {
         private bool isSettingsOpened = false;
+
         private int ActionSpeed = 0;
         private int PixelDensity = 0;
         private int SelectedAlgorithm = 0;
+
+        private int MouseX;
+        private int MouseY;
+
         private List<Point> PointList = new List<Point> { };
         private Thread FrameThread;
         private enum AlgorithmEnum
@@ -50,7 +55,7 @@ namespace GraphicAlgorithms
         private void button_Clear_Click(object sender, EventArgs e)
         {
             PointList.Clear();
-            CanvasPanel.Invalidate();
+            CanvasPictureBox.Invalidate();
         }
 
         //Radio Buttons
@@ -103,58 +108,20 @@ namespace GraphicAlgorithms
             label_PixelDensity.Text = PixelDensity.ToString();
         }
 
-        //Panels
-        private void CanvasPanel_MouseClick(object sender, MouseEventArgs e)
+        //Canvas
+        private void CanvasPictureBox_Paint(object sender, PaintEventArgs e)
         {
-            Point point = new Point(e.X, e.Y);
-            PointList.Add(point);
-            CanvasPanel.Invalidate();
+            //Вызывать в отдельном методе
+            Graphics Canvas = CanvasPictureBox.CreateGraphics();
+            Brush brush = Brushes.Black;
+            Pen pen = new Pen(brush);
+            Canvas.DrawEllipse(pen, 50, 50, 10, 10);
         }
-        private void CanvasPanel_Paint(object sender, PaintEventArgs e)
+
+        private void CanvasPictureBox_MouseClick(object sender, MouseEventArgs e)
         {
-            Graphics graphics = CanvasPanel.CreateGraphics();
-            Pen pen = new Pen(Color.Black, 5f);
-            if (PointList.Count != 0)
-            {
-                for (int i = 0; i < PointList.Count; i++)
-                {
-                    graphics.DrawEllipse(pen, PointList[i].X, PointList[i].Y, 3f, 3f);
-                }
-            }
-            if (PointList.Count == 2)
-            {
-                BresLineOrig(PointList[0], PointList[1]);
-            }
-        }
-        private IEnumerable<Point> BresLineOrig(Point begin, Point end)
-        {
-            Graphics graphics = CanvasPanel.CreateGraphics();
-            SolidBrush brush = new SolidBrush(Color.Black);
-            Point nextPoint = begin;
-            int deltax = end.X - begin.X;
-            int deltay = end.Y - begin.Y;
-            int error = deltax / 2;
-            int ystep = 1;
-
-            if (end.Y < begin.Y)
-            {
-                ystep = -1;
-            }
-
-            while (nextPoint.X < end.X)
-            {
-                if (nextPoint != begin) yield return nextPoint;
-                nextPoint.X++;
-
-                error -= deltay;
-                if (error < 0)
-                {
-                    nextPoint.Y += ystep;
-                    error += deltax;
-                }
-                graphics.FillRectangle(brush, nextPoint.X, nextPoint.Y, 1, 1);
-                Thread.Sleep(ActionSpeed * 10);
-            }
+            MouseX = e.X;
+            MouseY = e.Y;
         }
     }
 }

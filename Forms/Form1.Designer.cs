@@ -69,6 +69,7 @@
             this.label_PixelDensity = new System.Windows.Forms.Label();
             this.trackBar_ActionSpeed = new System.Windows.Forms.TrackBar();
             this.trackBar_PixelDensity = new System.Windows.Forms.TrackBar();
+            this.CanvasPictureBox = new System.Windows.Forms.PictureBox();
             this.TablePanelMain.SuspendLayout();
             this.MenuPanel.SuspendLayout();
             this.MenuTableLayoutPanel.SuspendLayout();
@@ -96,6 +97,7 @@
             this.panel_Settings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_ActionSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_PixelDensity)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CanvasPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // TablePanelMain
@@ -596,13 +598,12 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.CanvasPanel.Controls.Add(this.panel_Settings);
+            this.CanvasPanel.Controls.Add(this.CanvasPictureBox);
             this.CanvasPanel.Location = new System.Drawing.Point(0, 0);
             this.CanvasPanel.Margin = new System.Windows.Forms.Padding(0);
             this.CanvasPanel.Name = "CanvasPanel";
             this.CanvasPanel.Size = new System.Drawing.Size(550, 511);
             this.CanvasPanel.TabIndex = 1;
-            this.CanvasPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.CanvasPanel_Paint);
-            this.CanvasPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CanvasPanel_MouseClick);
             // 
             // panel_Settings
             // 
@@ -688,6 +689,17 @@
             this.trackBar_PixelDensity.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
             this.trackBar_PixelDensity.Scroll += new System.EventHandler(this.trackBar_PixelDensity_Scroll);
             // 
+            // CanvasPictureBox
+            // 
+            this.CanvasPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CanvasPictureBox.Location = new System.Drawing.Point(0, 0);
+            this.CanvasPictureBox.Name = "CanvasPictureBox";
+            this.CanvasPictureBox.Size = new System.Drawing.Size(550, 511);
+            this.CanvasPictureBox.TabIndex = 1;
+            this.CanvasPictureBox.TabStop = false;
+            this.CanvasPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.CanvasPictureBox_Paint);
+            this.CanvasPictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CanvasPictureBox_MouseClick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
@@ -737,6 +749,7 @@
             this.panel_Settings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_ActionSpeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_PixelDensity)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CanvasPictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -783,6 +796,7 @@
         private System.Windows.Forms.TrackBar trackBar_ActionSpeed;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label_ActionSpeed;
+        private System.Windows.Forms.PictureBox CanvasPictureBox;
     }
 }
 
