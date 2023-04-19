@@ -93,6 +93,36 @@ namespace GraphicAlgorithms.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap noShape128x128 {
+            get {
+                object obj = ResourceManager.GetObject("noShape128x128", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap noShape128x128V2 {
+            get {
+                object obj = ResourceManager.GetObject("noShape128x128V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap noShape32x32 {
+            get {
+                object obj = ResourceManager.GetObject("noShape32x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap settings32px {
             get {
                 object obj = ResourceManager.GetObject("settings32px", resourceCulture);

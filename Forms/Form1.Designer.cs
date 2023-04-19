@@ -60,7 +60,7 @@
             this.panel9 = new System.Windows.Forms.Panel();
             this.uirb_none = new GraphicAlgorithms.UIRadioButton();
             this.panel10 = new System.Windows.Forms.Panel();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox_NoShape = new System.Windows.Forms.PictureBox();
             this.CanvasPanel = new System.Windows.Forms.Panel();
             this.panel_Settings = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
@@ -92,7 +92,7 @@
             this.panel4.SuspendLayout();
             this.panel9.SuspendLayout();
             this.panel10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_NoShape)).BeginInit();
             this.CanvasPanel.SuspendLayout();
             this.panel_Settings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_ActionSpeed)).BeginInit();
@@ -572,25 +572,25 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel10.BackColor = System.Drawing.Color.LightGray;
-            this.panel10.Controls.Add(this.pictureBox3);
+            this.panel10.Controls.Add(this.pictureBox_NoShape);
             this.panel10.Location = new System.Drawing.Point(0, 0);
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(92, 89);
             this.panel10.TabIndex = 2;
             // 
-            // pictureBox3
+            // pictureBox_NoShape
             // 
-            this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox3.Image = global::GraphicAlgorithms.Properties.Resources.square128px;
-            this.pictureBox3.InitialImage = null;
-            this.pictureBox3.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox3.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(92, 89);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox3.TabIndex = 7;
-            this.pictureBox3.TabStop = false;
+            this.pictureBox_NoShape.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox_NoShape.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox_NoShape.Image = global::GraphicAlgorithms.Properties.Resources.noShape128x128V2;
+            this.pictureBox_NoShape.InitialImage = null;
+            this.pictureBox_NoShape.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox_NoShape.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox_NoShape.Name = "pictureBox_NoShape";
+            this.pictureBox_NoShape.Size = new System.Drawing.Size(92, 89);
+            this.pictureBox_NoShape.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_NoShape.TabIndex = 7;
+            this.pictureBox_NoShape.TabStop = false;
             // 
             // CanvasPanel
             // 
@@ -743,7 +743,7 @@
             this.panel9.ResumeLayout(false);
             this.panel9.PerformLayout();
             this.panel10.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_NoShape)).EndInit();
             this.CanvasPanel.ResumeLayout(false);
             this.panel_Settings.ResumeLayout(false);
             this.panel_Settings.PerformLayout();
@@ -770,7 +770,7 @@
         private System.Windows.Forms.Panel panel_Shape;
         private UIRadioButton uirb_Square;
         private System.Windows.Forms.PictureBox pictureBox_Square;
-        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox pictureBox_NoShape;
         private UIRadioButton uirb_Circle;
         private System.Windows.Forms.PictureBox pictureBox_Curve;
         private System.Windows.Forms.PictureBox pictureBox_Ellipse;

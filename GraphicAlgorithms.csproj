@@ -89,6 +89,9 @@
     <Content Include="Assets\MainFormIcon.ico" />
     <Content Include="Assets\settings32px.png" />
     <Content Include="Assets\square32px.png" />
+    <None Include="Resources\noShape128x128V2.png" />
+    <None Include="Resources\noShape128x128.png" />
+    <None Include="Resources\noShape32x32.png" />
     <None Include="Resources\curve128px.png" />
     <None Include="Resources\ellipse128px.png" />
     <None Include="Resources\square128px.png" />

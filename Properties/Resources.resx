@@ -121,19 +121,28 @@
   <data name="ellipse128px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ellipse128px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="curve128px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\curve128px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="eraser32px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\eraser32px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="square32px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\square32px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="square128px" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\square128px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="noShape128x128" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\noShape128x128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="noShape32x32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\noShape32x32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="settings32px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\settings32px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="curve128px" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\curve128px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="square128px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\square128px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="noShape128x128V2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\noShape128x128V2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
