@@ -124,6 +124,15 @@ namespace GraphicAlgorithms
             uirb_Curve.Enabled = false;
             uirb_Square.Enabled = true;
             uirb_Circle.Enabled = true;
+
+            uirb_none.Checked = true;
+            uirb_Square.Checked = false;
+            uirb_Circle.Checked = false;
+            uirb_Curve.Checked = false;
+
+            SelectedShape = ShapeEnum.NoShape;
+            CurrentSteep = 0;
+            PointList.Clear();
         }
         private void uirb_Bizier_CheckedChanged(object sender, EventArgs e)
         {
@@ -139,6 +148,15 @@ namespace GraphicAlgorithms
             uirb_Curve.Enabled = true;
             uirb_Square.Enabled = false;
             uirb_Circle.Enabled = false;
+
+            uirb_none.Checked = true;
+            uirb_Square.Checked = false;
+            uirb_Circle.Checked = false;
+            uirb_Curve.Checked = false;
+
+            SelectedShape = ShapeEnum.NoShape;
+            CurrentSteep = 0;
+            PointList.Clear();
         }
         private void uirb_ShapeFilling_CheckedChanged(object sender, EventArgs e)
         {
@@ -154,6 +172,15 @@ namespace GraphicAlgorithms
             uirb_Curve.Enabled = false;
             uirb_Square.Enabled = false;
             uirb_Circle.Enabled = false;
+
+            uirb_none.Checked = true;
+            uirb_Square.Checked = false;
+            uirb_Circle.Checked = false;
+            uirb_Curve.Checked = false;
+
+            SelectedShape = ShapeEnum.NoShape;
+            CurrentSteep = 0;
+            PointList.Clear();
         }
 
         //Track Bars
@@ -178,7 +205,7 @@ namespace GraphicAlgorithms
             Graphics Canvas = CanvasPictureBox.CreateGraphics();
             Brush brush = Brushes.Black;
             Pen pen = new Pen(brush);
-            Canvas.DrawEllipse(pen, X, Y, 1, 1);
+            Canvas.DrawRectangle(pen, X, Y, 1, 1);
         }
 
         //Draw at new thread
@@ -186,13 +213,40 @@ namespace GraphicAlgorithms
         {
             if (PointList.Count % 2 == 0)
             {
+                List<Point> tempList = new List<Point> { };
+                tempList = PointList;
+
                 CurrentPair = (CurrentSteep - 1, CurrentSteep);
                 ThreadStart brasLine = new ThreadStart(
                     delegate
                     {
-                        DrawBrasenhemLine(PointList[CurrentPair.Item1], PointList[CurrentPair.Item2]);
+                        DrawBrasenhemLine(tempList[CurrentPair.Item1], tempList[CurrentPair.Item2]);
                     });
                 Thread thread = new Thread(brasLine);
+                ThreadList.Add(thread);
+                thread.Start();
+            }
+
+            CurrentSteep++;
+        }
+        private void BrasenhemRectangle()
+        {
+            //необходимо узнать текущую пару точек 
+            if (PointList.Count % 4 == 0)
+            {
+                List<Point> tempList = new List<Point> { };
+                tempList = PointList;
+
+                CurrentPair = (CurrentSteep, CurrentSteep + 1);
+                ThreadStart brasRectLine = new ThreadStart(
+                    delegate
+                    {
+                        DrawBrasenhemLine(tempList[CurrentPair.Item1 - 3], tempList[CurrentPair.Item2 - 3]);
+                        DrawBrasenhemLine(tempList[CurrentPair.Item1 - 2], tempList[CurrentPair.Item2 - 2]);
+                        DrawBrasenhemLine(tempList[CurrentPair.Item1 - 1], tempList[CurrentPair.Item2 - 1]);
+                        DrawBrasenhemLine(tempList[CurrentPair.Item1], tempList[CurrentPair.Item2 - 4]);
+                    });
+                Thread thread = new Thread(brasRectLine);
                 ThreadList.Add(thread);
                 thread.Start();
             }
@@ -204,11 +258,14 @@ namespace GraphicAlgorithms
             // радиус вычислить между первой и второй точкой
             if (PointList.Count % 2 == 0)
             {
+                List<Point> tempList = new List<Point> { };
+                tempList = PointList;
+
                 CurrentPair = (CurrentSteep - 1, CurrentSteep);
                 ThreadStart brasLine = new ThreadStart(
                     delegate
                     {
-                        DrawBrasenhemCircle(PointList[CurrentPair.Item1], PointList[CurrentPair.Item2]);
+                        DrawBrasenhemCircle(tempList[CurrentPair.Item1], tempList[CurrentPair.Item2]);
                     });
                 Thread thread = new Thread(brasLine);
                 ThreadList.Add(thread);
@@ -228,17 +285,20 @@ namespace GraphicAlgorithms
                 switch (SelectedAlgorithm)
                 {
                     case AlgorithmEnum.Brasenhem:
-                        PointList.Add(new Point(e.X, e.Y));
                         switch (SelectedShape)
                         {
                             case ShapeEnum.Square:
+                                PointList.Add(new Point(e.X, e.Y));
+                                BrasenhemRectangle();
                                 break;
                             case ShapeEnum.Circle:
+                                PointList.Add(new Point(e.X, e.Y));
                                 BrasenhemCircle();
                                 break;
                             case ShapeEnum.Curve:
                                 break;
                             case ShapeEnum.NoShape:
+                                PointList.Add(new Point(e.X, e.Y));
                                 BrasenhemLine();
                                 break;
                         }
