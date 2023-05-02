@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\BitmapGrid.cs" />
     <Compile Include="Core\UI\UIRadioButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -89,6 +90,7 @@
     <Content Include="Assets\MainFormIcon.ico" />
     <Content Include="Assets\settings32px.png" />
     <Content Include="Assets\square32px.png" />
+    <Content Include="Core\ToDoList.txt" />
     <None Include="Resources\noShape128x128V2.png" />
     <None Include="Resources\noShape128x128.png" />
     <None Include="Resources\noShape32x32.png" />

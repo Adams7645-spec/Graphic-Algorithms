@@ -17,7 +17,7 @@ namespace GraphicAlgorithms
         private bool isCanvasActive = false;
 
         private int ActionSpeed = 0;
-        private int PixelDensity = 0;
+        private int PixelDensity = 5;
         private AlgorithmEnum SelectedAlgorithm;
         private ShapeEnum SelectedShape;
 
@@ -26,6 +26,8 @@ namespace GraphicAlgorithms
 
         private List<Point> PointList = new List<Point> { };
         private List<Thread> ThreadList = new List<Thread> { };
+        private BitmapGrid Grid;
+        Bitmap CanvasImage;
         private enum AlgorithmEnum
         {
             Brasenhem,
@@ -40,9 +42,15 @@ namespace GraphicAlgorithms
             NoShape
         }
 
+        //MainForm
         public MainForm()
         {
             InitializeComponent();
+            CreateCanvasGrid();
+        }
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            CreateCanvasGrid();
         }
 
         //Buttons
@@ -193,23 +201,46 @@ namespace GraphicAlgorithms
         {
             PixelDensity = trackBar_PixelDensity.Value;
             label_PixelDensity.Text = PixelDensity.ToString();
+            CreateCanvasGrid();
         }
 
         //Canvas
+        private void CreateCanvasGrid()
+        {
+            Grid = new BitmapGrid(PixelDensity, CanvasPictureBox.Width, CanvasPictureBox.Height);
+            CanvasImage = new Bitmap(CanvasPictureBox.Width, CanvasPictureBox.Height);
+        }
         private void CanvasPictureBox_Paint(object sender, PaintEventArgs e)
         {
 
         }
-        public void SetPixel(int X, int Y)
+        private void SetPixel(int X, int Y)
         {
-            Graphics Canvas = CanvasPictureBox.CreateGraphics();
+            Point cell = Grid.GetCell(X, Y);
+
             Brush brush = Brushes.Black;
             Pen pen = new Pen(brush);
-            Canvas.DrawRectangle(pen, X, Y, 1, 1);
+
+            Graphics g;
+            g = CanvasPictureBox.CreateGraphics();
+            g.FillRectangle(brush, cell.X, cell.Y, PixelDensity, PixelDensity);
+            g.Dispose();
+
+            //Grid.FillCell(X, Y, Color.Black, CanvasImage);
+            //CanvasPictureBox.Image = CanvasImage;
+        }
+        private void SetExPixel(int X, int Y)
+        {
+            Graphics g;
+            g = CanvasPictureBox.CreateGraphics();
+            Brush brush = Brushes.Red;
+            Pen pen = new Pen(brush);
+            g.DrawRectangle(pen, X, Y, 1, 1);
+            g.Dispose();
         }
 
         //Draw at new thread
-        private void BrasenhemLine()
+        private void ThreadBrasenhemLine()
         {
             if (PointList.Count % 2 == 0)
             {
@@ -229,7 +260,7 @@ namespace GraphicAlgorithms
 
             CurrentSteep++;
         }
-        private void BrasenhemRectangle()
+        private void ThreadBrasenhemRectangle()
         {
             //необходимо узнать текущую пару точек 
             if (PointList.Count % 4 == 0)
@@ -253,7 +284,7 @@ namespace GraphicAlgorithms
 
             CurrentSteep++;
         }
-        private void BrasenhemCircle() //circle 
+        private void ThreadBrasenhemCircle() //circle 
         {
             // радиус вычислить между первой и второй точкой
             if (PointList.Count % 2 == 0)
@@ -275,7 +306,7 @@ namespace GraphicAlgorithms
             CurrentSteep++;
         }
 
-        //Stuff
+        //Main point handler
         private void CanvasPictureBox_MouseClick(object sender, MouseEventArgs e)
         {
             if (isCanvasActive)
@@ -289,17 +320,17 @@ namespace GraphicAlgorithms
                         {
                             case ShapeEnum.Square:
                                 PointList.Add(new Point(e.X, e.Y));
-                                BrasenhemRectangle();
+                                ThreadBrasenhemRectangle();
                                 break;
                             case ShapeEnum.Circle:
                                 PointList.Add(new Point(e.X, e.Y));
-                                BrasenhemCircle();
+                                ThreadBrasenhemCircle();
                                 break;
                             case ShapeEnum.Curve:
                                 break;
                             case ShapeEnum.NoShape:
                                 PointList.Add(new Point(e.X, e.Y));
-                                BrasenhemLine();
+                                ThreadBrasenhemLine();
                                 break;
                         }
                         break;
@@ -307,11 +338,14 @@ namespace GraphicAlgorithms
                         //BizierCurve();
                         break;
                     case AlgorithmEnum.ShapeFilling:
-                        //ShapeFilling();
+                        PointList.Add(new Point(e.X, e.Y));
+                        ShapeFilling(Color.Black, Color.White, e.X, e.Y);
                         break;
                 }
             }
         }
+
+        //Stuff
         private void KillThreads(List<Thread> threads)
         {
             for (int i = 0; i < threads.Count; i++)
@@ -320,6 +354,8 @@ namespace GraphicAlgorithms
             }
             threads.Clear();
         }
+
+        //Algorithms
         private void DrawBrasenhemLine(Point StartPoint, Point EndPoint)
         {
             int w = EndPoint.X - StartPoint.X;
@@ -347,6 +383,7 @@ namespace GraphicAlgorithms
             {
                 Thread.Sleep(ActionSpeed);
                 SetPixel(StartPoint.X, StartPoint.Y);
+                SetExPixel(StartPoint.X, StartPoint.Y);
 
                 numerator += shortest;
                 if (!(numerator < longest))
@@ -396,6 +433,32 @@ namespace GraphicAlgorithms
             SetPixel(xc - y, yc + x);
             SetPixel(xc + y, yc - x);
             SetPixel(xc - y, yc - x);
+        }
+        private void ShapeFilling(Color targetColor, Color replacementColor, int x, int y)
+        {
+            //Переписать алгоритм под работу с листом точек в Grid 
+            var bitmap = (Bitmap)CanvasImage;
+            var stack = new Stack<Point>();
+            stack.Push(new Point(x, y));
+
+            while (stack.Count > 0)
+            {
+                var point = stack.Pop();
+
+                if (IsInRange(point.X, point.Y) && bitmap.GetPixel(point.X, point.Y) == targetColor)
+                {
+                    bitmap.SetPixel(point.X, point.Y, replacementColor);
+                    stack.Push(new Point(point.X + 1, point.Y));
+                    stack.Push(new Point(point.X - 1, point.Y));
+                    stack.Push(new Point(point.X, point.Y + 1));
+                    stack.Push(new Point(point.X, point.Y - 1));
+                }
+            }
+        }
+        private bool IsInRange(int x, int y)
+        {
+            var bitmap = (Bitmap)CanvasImage;
+            return x >= 0 && x < bitmap.Width && y >= 0 && y < bitmap.Height;
         }
     }
 }
