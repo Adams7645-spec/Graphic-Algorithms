@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 
@@ -201,14 +196,16 @@ namespace GraphicAlgorithms
         {
             PixelDensity = trackBar_PixelDensity.Value;
             label_PixelDensity.Text = PixelDensity.ToString();
+            label_GridHeight.Text = $"Высота сетки: {Grid.gridHeight}";
+            label_GridWidht.Text = $"Ширина сетки: {Grid.gridWidth}";
             CreateCanvasGrid();
         }
 
         //Canvas
         private void CreateCanvasGrid()
         {
-            Grid = new BitmapGrid(PixelDensity, CanvasPictureBox.Width, CanvasPictureBox.Height);
             CanvasImage = new Bitmap(CanvasPictureBox.Width, CanvasPictureBox.Height);
+            Grid = new BitmapGrid(PixelDensity, CanvasPictureBox.Width, CanvasPictureBox.Height);
         }
         private void CanvasPictureBox_Paint(object sender, PaintEventArgs e)
         {
@@ -225,9 +222,18 @@ namespace GraphicAlgorithms
             g = CanvasPictureBox.CreateGraphics();
             g.FillRectangle(brush, cell.X, cell.Y, PixelDensity, PixelDensity);
             g.Dispose();
+        }
+        private void SetPixel(int X, int Y, Bitmap bitmap)
+        {
+            Point cell = Grid.GetCell(X, Y);
 
-            //Grid.FillCell(X, Y, Color.Black, CanvasImage);
-            //CanvasPictureBox.Image = CanvasImage;
+            Brush brush = Brushes.Black;
+            Pen pen = new Pen(brush);
+
+            Graphics g;
+            g = Graphics.FromImage(bitmap);
+            g.FillRectangle(brush, cell.X, cell.Y, PixelDensity, PixelDensity);
+            g.Dispose();
         }
         private void SetExPixel(int X, int Y)
         {
@@ -284,7 +290,7 @@ namespace GraphicAlgorithms
 
             CurrentSteep++;
         }
-        private void ThreadBrasenhemCircle() //circle 
+        private void ThreadBrasenhemCircle()
         {
             // радиус вычислить между первой и второй точкой
             if (PointList.Count % 2 == 0)
@@ -304,6 +310,20 @@ namespace GraphicAlgorithms
             }
 
             CurrentSteep++;
+        }
+        private void ThreadShapeFilling()
+        {
+            List<Point> tempList = new List<Point> { };
+            tempList = PointList;
+
+            ThreadStart brasLine = new ThreadStart(
+                delegate
+                {
+                    ShapeFilling(tempList[0].X, tempList[0].Y, Color.Black.ToArgb(), Color.White.ToArgb());
+                });
+            Thread thread = new Thread(brasLine);
+            ThreadList.Add(thread);
+            thread.Start();
         }
 
         //Main point handler
@@ -339,7 +359,7 @@ namespace GraphicAlgorithms
                         break;
                     case AlgorithmEnum.ShapeFilling:
                         PointList.Add(new Point(e.X, e.Y));
-                        ShapeFilling(Color.Black, Color.White, e.X, e.Y);
+                        ThreadShapeFilling();
                         break;
                 }
             }
@@ -434,31 +454,39 @@ namespace GraphicAlgorithms
             SetPixel(xc + y, yc - x);
             SetPixel(xc - y, yc - x);
         }
-        private void ShapeFilling(Color targetColor, Color replacementColor, int x, int y)
+        private void ShapeFilling(int X, int Y, int FillColor, int TargetColor)
         {
-            //Переписать алгоритм под работу с листом точек в Grid 
-            var bitmap = (Bitmap)CanvasImage;
-            var stack = new Stack<Point>();
-            stack.Push(new Point(x, y));
+            Bitmap currentCanvas = CanvasImage;
+            Color currentColor = currentCanvas.GetPixel(X, Y);
 
-            while (stack.Count > 0)
+            if (!currentColor.Equals(TargetColor))
+                return;
+            Stack<Point> pixels = new Stack<Point>();
+            pixels.Push(new Point(X, Y));
+
+            while (pixels.Count > 0)
             {
-                var point = stack.Pop();
+                Point currentPixel = pixels.Pop();
+                int px = currentPixel.X;
+                int py = currentPixel.Y;
 
-                if (IsInRange(point.X, point.Y) && bitmap.GetPixel(point.X, point.Y) == targetColor)
+                currentColor = currentCanvas.GetPixel(px, py);
+
+                if (currentColor.Equals(TargetColor))
                 {
-                    bitmap.SetPixel(point.X, point.Y, replacementColor);
-                    stack.Push(new Point(point.X + 1, point.Y));
-                    stack.Push(new Point(point.X - 1, point.Y));
-                    stack.Push(new Point(point.X, point.Y + 1));
-                    stack.Push(new Point(point.X, point.Y - 1));
+                    SetPixel(px, py, currentCanvas);
+                    CanvasPictureBox.Image = currentCanvas;
+
+                    if (px > 0)
+                        pixels.Push(new Point(px - 1, py));
+                    if (px < Grid.gridWidth - 1)
+                        pixels.Push(new Point(px + 1, py));
+                    if (py > 0)
+                        pixels.Push(new Point(px, py - 1));
+                    if (py < Grid.gridHeight - 1)
+                        pixels.Push(new Point(px, py + 1));
                 }
             }
-        }
-        private bool IsInRange(int x, int y)
-        {
-            var bitmap = (Bitmap)CanvasImage;
-            return x >= 0 && x < bitmap.Width && y >= 0 && y < bitmap.Height;
         }
     }
 }

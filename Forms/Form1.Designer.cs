@@ -70,6 +70,8 @@
             this.uirb_Circle = new GraphicAlgorithms.UIRadioButton();
             this.uirb_Curve = new GraphicAlgorithms.UIRadioButton();
             this.uirb_none = new GraphicAlgorithms.UIRadioButton();
+            this.label_GridWidht = new System.Windows.Forms.Label();
+            this.label_GridHeight = new System.Windows.Forms.Label();
             this.TablePanelMain.SuspendLayout();
             this.MenuPanel.SuspendLayout();
             this.MenuTableLayoutPanel.SuspendLayout();
@@ -458,6 +460,8 @@
             // panel_Settings
             // 
             this.panel_Settings.BackColor = System.Drawing.Color.LightGray;
+            this.panel_Settings.Controls.Add(this.label_GridHeight);
+            this.panel_Settings.Controls.Add(this.label_GridWidht);
             this.panel_Settings.Controls.Add(this.label4);
             this.panel_Settings.Controls.Add(this.label_ActionSpeed);
             this.panel_Settings.Controls.Add(this.label2);
@@ -702,6 +706,24 @@
             this.uirb_none.UseVisualStyleBackColor = true;
             this.uirb_none.Click += new System.EventHandler(this.uirb_none_Click);
             // 
+            // label_GridWidht
+            // 
+            this.label_GridWidht.AutoSize = true;
+            this.label_GridWidht.Location = new System.Drawing.Point(13, 13);
+            this.label_GridWidht.Name = "label_GridWidht";
+            this.label_GridWidht.Size = new System.Drawing.Size(85, 13);
+            this.label_GridWidht.TabIndex = 6;
+            this.label_GridWidht.Text = "Ширина сетки:";
+            // 
+            // label_GridHeight
+            // 
+            this.label_GridHeight.AutoSize = true;
+            this.label_GridHeight.Location = new System.Drawing.Point(13, 38);
+            this.label_GridHeight.Name = "label_GridHeight";
+            this.label_GridHeight.Size = new System.Drawing.Size(79, 13);
+            this.label_GridHeight.TabIndex = 7;
+            this.label_GridHeight.Text = "Длина сетки:";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
@@ -801,6 +823,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label_ActionSpeed;
         private System.Windows.Forms.PictureBox CanvasPictureBox;
+        private System.Windows.Forms.Label label_GridHeight;
+        private System.Windows.Forms.Label label_GridWidht;
     }
 }
 

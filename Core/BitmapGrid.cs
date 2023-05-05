@@ -17,6 +17,8 @@ namespace GraphicAlgorithms
         private int width;
         private int height;
         private List<Point> cells;
+        public readonly int gridWidth;
+        public readonly int gridHeight;
         public BitmapGrid(int CellSize, int BitmapWidth, int BitmapHeight)
         {
             //
@@ -28,8 +30,10 @@ namespace GraphicAlgorithms
             cells = new List<Point>();
             for (int y = 0; y < BitmapHeight && y + CellSize < BitmapHeight; y += CellSize)
             {
+                gridWidth++;
                 for (int x = 0; x < BitmapWidth && x + CellSize < BitmapWidth; x += CellSize)
                 {
+                    gridHeight++;
                     cells.Add(new Point(x, y));
                 }
             }
